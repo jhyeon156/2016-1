@@ -74,10 +74,8 @@ void Seller::setSeller(int _id, string _password, string _name, string _phone, s
 //사용자 정보 출력
 void Seller::printSellerInfo()
 {
-	cout << "사용자ID\t: " << id << endl;
-	cout << "사용자이름\t: " << name << endl;
-	cout << "사용자전화\t: " << phone << endl;
-	cout << "사용자번호\t: " << regitNum << endl;
+	cout << "판매자ID\t: " << id << endl;
+	cout << "판매자이름\t: " << name << endl;
 }
 
 // Compare two itemtypes by ID.

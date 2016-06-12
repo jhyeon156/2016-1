@@ -411,41 +411,7 @@ void Replace(BinaryTreeNode<T>* root, T& item, bool& found)
 template<typename T>
 void BinarySearchTree<T>::PrintTree(ostream& outFile) const
 {
-	int PrintCommand;
-
-	while (1)
-	{
-		cout << endl << endl;
-		cout << "\t---ID -- Command ----- " << endl;
-		cout << "\t   1 : Print InOrder" << endl;
-		cout << "\t   2 : Print Pre " << endl;
-		cout << "\t   3 : Print Post" << endl;
-		cout << "\t   0 : Quit " << endl;
-
-		cout << endl << "\t Choose a Command--> ";
-		cin >> PrintCommand;
-
-		switch (PrintCommand)
-		{
-		case 1:
-			cout << "\n\tCurrent list" << endl;
-			PrintInOrderTraversal(root, outFile);
-			break;
-		case 2:
-			cout << "\n\tCurrent list" << endl;
-			PrintPreOrderTraversal(root, outFile);
-			break;
-		case 3:
-			cout << "\n\tCurrent list" << endl;
-			PrintPostOrderTraversal(root, outFile);
-			break;
-		case 0:
-			return;
-		default:
-			cout << "\tIllegal sellection...\n";
-			break;
-		}
-	}
+		PrintInOrderTraversal(root, outFile);
 }
 
 /**

@@ -144,3 +144,9 @@ bool Product::operator ==(Product data)
 	else
 		return false;
 }
+
+ostream& operator <<(ostream& out, const Product& data)
+{
+	cout << data.id << "\t" << data.name << "\t" << data.price << "\t" << data.amount << "\t" << data.picPath << endl;
+	return out;
+}

@@ -232,21 +232,7 @@ void Application::printMenu(int menu)
 		cout << "5. 뒤로" << endl;
 	}
 }
-//구매시 삭제함수
-void Application::resetProductList()
-{
-	Product dummy;
 
-	productList.ResetList();
-	for (int i = 0; i < productList.GetLength(); i++)
-	{
-		productList.GetNextItem(dummy);
-		if (dummy.getAmount() == 0)
-		{
-			productList.Delete(dummy);
-		}
-	}
-}
 //장바구니 입력
 void Application::addItemToCart(int pid)
 {
@@ -254,24 +240,28 @@ void Application::addItemToCart(int pid)
 
 	//상품정보 출력
 	Product temp;
+	bool found = false;
 
 	temp.setProduct(pid, 0, 0, 0, 0, 0, 0, "", "");
-	productList.Get(temp);
-	temp.printProductInfo(categoryTitleArray);
-
-	cout << "상품을 카트에 담으시겠습니까?" << endl;
-	cout << "Y/N->";
-	cin >> YN;
-
-	loginedUser->addItemToShoppingList(pid);
-	if (YN == 'Y')
+	productList.RetrieveItem(temp,found);
+	if (found)
 	{
-		loginedUser->addItemToCart(pid);
-		return;
-	}
-	else
-	{
-		return;
+		temp.printProductInfo(categoryTitleArray);
+
+		cout << "상품을 카트에 담으시겠습니까?" << endl;
+		cout << "Y/N->";
+		cin >> YN;
+
+		loginedUser->addItemToShoppingList(pid);
+		if (YN == 'Y')
+		{
+			loginedUser->addItemToCart(pid);
+			return;
+		}
+		else
+		{
+			return;
+		}
 	}
 }
 
@@ -319,7 +309,7 @@ void Application::addItem()
 	}
 	
 	temp.setProduct(id, price, amount, sellerId, cat[0], cat[1], cat[2], name, picPath);
-	productList.Add(temp);
+	productList.InsertItem(temp);
 	cout << "입력이 완료되었습니다." << endl;
 	return;
 }
@@ -328,9 +318,9 @@ void Application::replaceItem()
 {
 	int command = 0;
 	int dep = 0;
-	bool found = false;
 
 	Product temp;
+	bool found = false;
 	int id = 0;
 	int price = 0;
 	string name = "";
@@ -341,21 +331,9 @@ void Application::replaceItem()
 
 	Product dummy;
 
-	productList.ResetList();
 	cout << "ID\t이름\t가격\t수량\t사진" << endl;
-	for (int i = 0; i < productList.GetLength(); i++)
-	{
-		productList.GetNextItem(dummy);
-		if (dummy.getSellerId() == loginedSeller->getId())
-		{
-			dummy.printProductList();
-			found = true;
-		}
-	}
-	if (found = false)
-	{
-		cout << "상품이 없습니다." << endl;
-	}
+	productList.PrintTree(cout);
+
 	cout << "수정할 상품ID를 입력해 주십시오. : ";
 	cin >> id;
 	cout << "NAME : ";
@@ -384,7 +362,7 @@ void Application::replaceItem()
 	}
 
 	temp.setProduct(id, price, amount, sellerId, cat[0], cat[1], cat[2], name, picPath);
-	productList.Replace(temp);
+	productList.ReplaceItem(temp,found);
 	cout << "입력이 완료되었습니다." << endl;
 	return;
 }
@@ -425,26 +403,14 @@ void Application::deleteItem()
 
 	Product dummy;
 
-	productList.ResetList();
 	cout << "ID\t이름\t가격\t수량\t사진" << endl;
-	for (int i = 0; i < productList.GetLength(); i++)
-	{
-		productList.GetNextItem(dummy);
-		if (dummy.getSellerId() == loginedSeller->getId())
-		{
-			dummy.printProductList();
-			found = true;
-		}
-	}
-	if (found = false)
-	{
-		cout << "상품이 없습니다." << endl;
-	}
+	productList.PrintTree(cout);
+
 	cout << "삭제할 상품ID를 입력해 주십시오. : ";
 	cin >> id;
 
 	temp.setProduct(id, 0, 0, 0, 0, 0, 0, "", "");
-	productList.Delete(temp);
+	productList.DeleteItem(temp);
 	cout << "입력이 완료되었습니다." << endl;
 	return;
 }
@@ -454,6 +420,7 @@ void Application::shoppingManagement()
 	int command;
 	LinkedList<int>* userCart;
 	Product dummy;
+	bool found = false;
 	int i_dummy;
 
 	cout << "1. 장바구니 보기" << endl;
@@ -473,7 +440,7 @@ void Application::shoppingManagement()
 		{
 			userCart->GetNextItem(i_dummy);
 			dummy.setId(i_dummy);
-			productList.Get(dummy);
+			productList.RetrieveItem(dummy,found);
 			dummy.printProductList();
 		}
 	}
@@ -487,7 +454,7 @@ void Application::shoppingManagement()
 		{
 			userCart->GetNextItem(i_dummy);
 			dummy.setId(i_dummy);
-			productList.Get(dummy);
+			productList.RetrieveItem(dummy, found);
 			dummy.printProductList();
 		}
 	}
@@ -501,12 +468,12 @@ void Application::shoppingManagement()
 		{
 			userCart->GetNextItem(i_dummy);
 			dummy.setId(i_dummy);
-			productList.Get(dummy);
+			productList.RetrieveItem(dummy, found);
+			//개수 1개 이하 예외처리
 			dummy.setAmount(dummy.getAmount() - 1);
-			productList.Replace(dummy);
+			productList.ReplaceItem(dummy,found);
 		}
 		printItemList();
-		resetProductList();
 	}
 }
 
@@ -532,7 +499,7 @@ void Application::searchByCategory()
 		cout << endl;
 		cin >> command;
 	}
-	categoryArray[command - 1].setList(productList);
+	//categoryArray[command - 1].setList(productList);
 	tempList = categoryArray[command - 1].getList();
 	
 	int p=-1;
@@ -545,7 +512,7 @@ void Application::searchByCategory()
 	{
 		tempList->GetNextItem(p);
 		dummy.setId(p);
-		productList.Get(dummy);
+		productList.RetrieveItem(dummy,found);
 		dummy.printProductList();
 	}
 	if (found = false)
@@ -573,10 +540,10 @@ void Application::searchById()
 	cin >> command;
 
 	Product temp;
-	int found;
+	bool found;
 
 	temp.setProduct(command, 0, 0, 0, 0, 0, 0, "", "");
-	found = productList.Get(temp);
+	productList.RetrieveItem(temp,found);
 	if (found)
 		addItemToCart(temp.getId());
 	else
@@ -591,12 +558,7 @@ void Application::printItemList()
 {
 	Product dummy;
 
-	productList.ResetList();
-	for (int i = 0; i < productList.GetLength(); i++)
-	{
-		productList.GetNextItem(dummy);
-		dummy.printProductList();
-	}
+	productList.PrintTree(cout);
 }
 
 void Application::test()
@@ -644,7 +606,7 @@ bool Application::loginAdmin(int uid, string Password)
 	string dummy = "";
 	bool found;
 
-	temp.setSeller(uid, Password, dummy, 0, 0);
+	temp.setSeller(uid, Password, dummy, "", "");
 	sellerList.RetrieveItem(temp,found);
 
 	if (!found)
@@ -723,8 +685,8 @@ void Application::load_user_file()
 	int id=0;
 	string password="";
 	string name="";
-	string regitNum = 0;
-	string phone = 0;
+	string regitNum ="";
+	string phone = "";
 	User temp;
 	Seller temp2;
 
@@ -778,20 +740,11 @@ void Application::load_product_file()
 	while (!ifs.eof()) {
 		ifs >> id >> name >> price >> amount >> sellerId >> cat_1 >> cat_2 >> cat_3 >> picPath;
 		temp.setProduct(id, price, amount, sellerId, cat_1, cat_2, cat_3, name, picPath);
-		productList.Add(temp);
+		productList.InsertItem(temp);
 		index++;
 	}
 
-	productList.ResetList();	// 리스트 초기화
-							// list의 모든 데이터를 화면에 출력
-	for (int i = 0; i < productList.GetLength(); i++)
-	{
-		productList.GetNextItem(temp);
-	}
-
 	ifs.close();
-
-
 
 	return;
 }

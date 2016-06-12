@@ -26,7 +26,6 @@ private:
 	void searchByCategory();//대출 메뉴 출력
 	void searchById();//대출 메뉴 출력
 	void printItemList();//상환 메뉴 출력
-	void resetProductList();
 	
 	bool login(int uid, string Password);//로그인 함수 성공시 1 출력과 로그인유저 입력
 	bool loginAdmin(int uid, string Password);//로그인 함수 성공시 1 출력과 로그인유저 입력
@@ -48,7 +47,7 @@ private:
 private:
 	BinarySearchTree<User> userList;
 	BinarySearchTree<Seller> sellerList;
-	LinkedList<Product> productList;
+	BinarySearchTree<Product> productList;
 	Category* categoryArray;
 	title* categoryTitleArray;
 

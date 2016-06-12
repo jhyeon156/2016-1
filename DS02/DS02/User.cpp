@@ -63,8 +63,8 @@ void User::setUser(int _id, string _password, string _name)
 //사용자 정보 출력
 void User::printUserInfo()
 {
-	cout << "사용자ID\t: " << id << endl;
-	cout << "사용자이름\t: " << name << endl;
+	cout << "구매자ID\t: " << id << endl;
+	cout << "구매자이름\t: " << name << endl;
 }
 
 // Compare two itemtypes by ID.

@@ -75,5 +75,15 @@ public:
 	*	@return	왼쪽과 오른쪽의 ID가 같으면 true 다르면 false를 반환한다.
 	*/
 	bool operator==(Product data);
+
+	/**
+	*	Print ItemType
+	*	@brief	Print ItemType by ostream
+	*	@pre	item types should be initialized.
+	*	@post	BinarySearchTree에서 cout<<의 제네릭한 사용을 위해 << 오버로딩
+	*	@param	ostream객체와 itemType
+	*	@return	ostream객체를 반환한다.
+	*/
+	friend ostream& operator<<(ostream& out, const Product& data);
 };
 
