@@ -97,7 +97,7 @@ void Application::run()
 				cin >> m_Command; //1,2,3,4
 				cin.clear(); //문자열 입력 금지
 				cin.ignore();
-				if (m_Command == 1 || m_Command == 2 || m_Command == 3 || m_Command == 4)
+				if (m_Command == 1 || m_Command == 2 || m_Command == 3 || m_Command == 4 || m_Command == 5)
 				{
 					m_Command += 8;
 					break;
@@ -189,6 +189,8 @@ void Application::run()
 			deleteItem();
 			break;
 		case 12:
+			replaceSeller();
+		case 13:
 			menu = 0;
 			break;
 		case 0:  //종료
@@ -226,7 +228,8 @@ void Application::printMenu(int menu)
 		cout << "1. 상품등록" << endl;
 		cout << "2. 상품변경" << endl;
 		cout << "3. 상품삭제" << endl;
-		cout << "4. 뒤로" << endl;
+		cout << "4. 유저수정" << endl;
+		cout << "5. 뒤로" << endl;
 	}
 }
 //구매시 삭제함수
@@ -385,6 +388,25 @@ void Application::replaceItem()
 	cout << "입력이 완료되었습니다." << endl;
 	return;
 }
+void Application::replaceSeller()
+{
+	string name;
+	string phone;
+	string regitNum;
+	bool found;
+
+	Seller temp;
+
+	cout << "상호명 : ";
+	cin >> name;
+	cout << "전화번호 : ";
+	cin >> phone;
+	cout << "상호번호 : ";
+	cin >> regitNum;
+
+	temp.setSeller(loginedSeller->getId(), loginedSeller->getPW(), name, phone, regitNum);
+	sellerList.ReplaceItem(temp, found);
+}
 //아이템 삭제
 void Application::deleteItem()
 {
@@ -437,6 +459,7 @@ void Application::shoppingManagement()
 	cout << "1. 장바구니 보기" << endl;
 	cout << "2. 쇼핑내역 보기" << endl;
 	cout << "3. 구매하기" << endl;
+	cout << "4. 유저수정" << endl;
 	cout << "->";
 	cin >> command;
 	
@@ -590,10 +613,10 @@ bool Application::login(int uid, string Password)
 {
 	User temp;
 	string dummy = "";
-	int found;
+	bool found;
 
 	temp.setUser(uid, Password, dummy);
-	found = userList.Get(temp);
+	userList.RetrieveItem(temp,found);
 
 	if (!found)
 	{
@@ -619,10 +642,10 @@ bool Application::loginAdmin(int uid, string Password)
 {
 	Seller temp;
 	string dummy = "";
-	int found;
+	bool found;
 
 	temp.setSeller(uid, Password, dummy, 0, 0);
-	found = sellerList.Get(temp);
+	sellerList.RetrieveItem(temp,found);
 
 	if (!found)
 	{
@@ -700,11 +723,8 @@ void Application::load_user_file()
 	int id=0;
 	string password="";
 	string name="";
-	int accountNumber=0;
-	int balance=0;
-	int creditRating=0;
-	int regitNum = 0;
-	int phone = 0;
+	string regitNum = 0;
+	string phone = 0;
 	User temp;
 	Seller temp2;
 
@@ -715,14 +735,14 @@ void Application::load_user_file()
 		{
 			ifs >> id >> password >> name;
 			temp.setUser(id, password, name);
-			userList.Add(temp);
+			userList.InsertItem(temp);
 			index++;
 		}
 		else
 		{
 			ifs >> id >> password >> name >> phone >> regitNum;
 			temp2.setSeller(id, password, name, phone, regitNum);
-			sellerList.Add(temp2);
+			sellerList.InsertItem(temp2);
 			index++;
 		}
     }
@@ -804,4 +824,15 @@ void Application::load_category_file()
 	}
 	ifs.close();
 	return;
+}
+
+string Application::inputString()
+{
+	char ch[1024];
+	string input;
+	cin.getline(ch, 1023);  //cin사용시 입력값과 변수를 잘 살펴야한다.
+	cin.clear();
+
+	getline(cin, input);
+	return input;
 }

@@ -39,9 +39,6 @@ public:
 	*	@post	the target file is included the new item record.
 	*	@param	data	target item for comparing.
 	*	@return	현재의 자료가 data보다 작으면 LESS, 같으면 EQUAL, 크면 GREATER를 반환한다.
-	return LESS if this.id < data.id,
-	*			return GREATER if this.id > data.id then,
-	*			otherwise return EQUAL.
 	*/
 	RelationType CompareByID(const User &data);
 
@@ -74,28 +71,4 @@ public:
 	*	@return	왼쪽과 오른쪽의 ID가 같으면 true 다르면 false를 반환한다.
 	*/
 	bool operator==(User data);
-};
-
-
-class Seller : public User
-{
-private:
-	int phone;
-	int regitNum;
-	LinkedList<int> itemList;
-
-public:
-	Seller();
-	Seller(Seller& seller);
-	~Seller();
-
-	int getPhone();
-	int getRegitNum();
-	LinkedList<int>* getItemList(); //캐시 포인터 리턴
-
-	int addItemToList(int pid);
-	int deleteItemToList(int pid);
-	int replaceItemToList(int pid);
-	void setSeller(int _id, string _password, string _name, int _phone, int _regitNum);
-	void printSellerInfo();
 };

@@ -74,6 +74,12 @@ public:
 	*/
 	void DeleteItem(T item);
 
+	/**
+	*	@brief	노드자료를 수정한다.
+	*	@pre	트리가 초기화 되어있어야 한다.
+	*	@post	있으면 자료를 item에 복사하고 found를 true로 한다. 없는 경우 found를 false로 한다.
+	*/
+	void ReplaceItem(T& item, bool& found);
 
 	/**
 	*	@brief	자료의 PK를 비교하여 있는 경우 자료를 복사한다.
@@ -243,6 +249,21 @@ void BinarySearchTree<T>::DeleteItem(T item)
 	Delete(root, item);
 }
 
+template<typename T>
+void BinarySearchTree<T>::ReplaceItem(T & item, bool & found)
+{
+	RetrieveItem(item, found);
+	if (found)
+	{
+		Replace(root, item, found);
+		return;
+	}
+	else
+	{
+		return;
+	}
+}
+
 /**
 *	@brief	실제로 없앨 위치를 찾는 재귀함수
 *	@pre	트리에 하나 이상의 자료가 있다.
@@ -351,6 +372,35 @@ void Retrieve(BinaryTreeNode<T>* root, T& item, bool& found)
 	{
 		item = root->data;
 		found = true;
+	}
+}
+
+/**
+*	@brief	자료의 PK와 일치하는 노드를 찾기 위한 재귀함수
+*	@pre	트리가 초기화 되어있다.
+*	@post	자료의 PK와 일치하는 노드가 나올 때까지 재귀함수를 호출한다.
+*/
+template<typename T>
+void Replace(BinaryTreeNode<T>* root, T& item, bool& found)
+{
+	if (root == NULL)
+	{
+		found = false;
+		return;
+	}
+	else if (item < root->data)
+	{
+		Retrieve(root->left, item, found);
+	}
+	else if (item > root->data)
+	{
+		Retrieve(root->right, item, found);
+	}
+	else
+	{
+		found = true;
+		root->data = item;
+		return;
 	}
 }
 

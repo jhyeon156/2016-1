@@ -14,8 +14,8 @@ private:
 	int id;
 	string password;
 	string name;
-	int phone;
-	int regitNum;
+	string phone;
+	string regitNum;
 	LinkedList<int> itemList;
 
 public:
@@ -26,14 +26,14 @@ public:
 	int getId(); // 아이디 리턴
 	string getPW();  // 비밀번호 리턴
 	string getName(); // 이름 리턴
-	int getPhone();
-	int getRegitNum();
+	string getPhone();
+	string getRegitNum();
 	LinkedList<int>* getItemList(); //캐시 포인터 리턴
 
 	int addItemToList(int pid);
 	int deleteItemToList(int pid);
 	int replaceItemToList(int pid);
-	void setSeller(int _id, string _password, string _name, int _phone, int _regitNum);
+	void setSeller(int _id, string _password, string _name, string _phone, string _regitNum);
 	void printSellerInfo();
 
 	/**

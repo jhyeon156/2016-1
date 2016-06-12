@@ -1,9 +1,11 @@
 #pragma once
 
 #include "User.h"
+#include "Seller.h"
 #include "Product.h"
 #include "Category.h"
 #include "LinkedList.h"
+#include  "BinarySearchTree.h"
 #include "CategoryTitle.h"
 #include <fstream>
 #include <string>
@@ -35,14 +37,17 @@ private:
 	void addItem();
 	void deleteItem();
 	void replaceItem();
+	void replaceSeller();
 
 	int countCategory();
 	void load_user_file(); //유저정보 입력함수
 	void load_product_file(); //거래내역 입력함수
 	void load_category_file(); //대출내역 입력함수
+
+	string inputString();
 private:
-	LinkedList<User> userList;
-	LinkedList<Seller> sellerList;
+	BinarySearchTree<User> userList;
+	BinarySearchTree<Seller> sellerList;
 	LinkedList<Product> productList;
 	Category* categoryArray;
 	title* categoryTitleArray;

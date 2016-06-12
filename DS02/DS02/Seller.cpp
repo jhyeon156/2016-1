@@ -32,12 +32,12 @@ string Seller::getName()
 	return name;
 }
 
-int Seller::getPhone()
+string Seller::getPhone()
 {
 	return phone;
 }
 
-int Seller::getRegitNum()
+string Seller::getRegitNum()
 {
 	return regitNum;
 }
@@ -66,7 +66,7 @@ int Seller::replaceItemToList(int pid)
 }
 
 //판매자 정보 입력
-void Seller::setSeller(int _id, string _password, string _name, int _phone, int _regitNum)
+void Seller::setSeller(int _id, string _password, string _name, string _phone, string _regitNum)
 {
 	id = _id; password = _password; name = _name; phone = _phone; regitNum = _regitNum;
 }
@@ -76,6 +76,8 @@ void Seller::printSellerInfo()
 {
 	cout << "사용자ID\t: " << id << endl;
 	cout << "사용자이름\t: " << name << endl;
+	cout << "사용자전화\t: " << phone << endl;
+	cout << "사용자번호\t: " << regitNum << endl;
 }
 
 // Compare two itemtypes by ID.
