@@ -32,6 +32,7 @@ public:
 	//해당 소분류의 item목록 캐싱
 	void setList(LinkedList<Product>& list);
 	//해당 카테고리의 다음 카테고리 출력
+	void addItemToList(int id);
 	int findNext(int id);
 	void print();
 };

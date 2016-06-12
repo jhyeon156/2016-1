@@ -13,6 +13,7 @@ User::User(User& user)
 	id = user.getId();
 	name = user.getName();
 	password = user.getPW();
+	address = user.getAddress();
 }
 
 User::~User() {}
@@ -30,6 +31,11 @@ string User::getPW()
 string User::getName()
 {
 	return name;
+}
+
+string User::getAddress()
+{
+	return address;
 }
 
 LinkedList<int>* User::getCartList()
@@ -55,9 +61,9 @@ int User::addItemToShoppingList(int pid)
 }
 
 //유저 정보 입력
-void User::setUser(int _id, string _password, string _name)
+void User::setUser(int _id, string _password, string _name, string _address)
 {
-	id = _id; password = _password; name = _name;
+	id = _id; password = _password; name = _name;  address = _address;
 }
 
 //사용자 정보 출력
@@ -65,6 +71,7 @@ void User::printUserInfo()
 {
 	cout << "구매자ID\t: " << id << endl;
 	cout << "구매자이름\t: " << name << endl;
+	cout << "구매자주소\t: " << address << endl;
 }
 
 // Compare two itemtypes by ID.

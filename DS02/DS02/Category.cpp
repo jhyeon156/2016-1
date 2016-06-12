@@ -77,6 +77,12 @@ void Category::setList(LinkedList<Product>& list)
 	}
 }
 
+void Category::addItemToList(int id)
+{
+	if(!cateProductList.Get(id))
+		cateProductList.Add(id);
+}
+
 int Category::findNext(int _id)
 {
 	if (prev == _id)

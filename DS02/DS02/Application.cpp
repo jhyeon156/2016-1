@@ -17,10 +17,11 @@ Application::Application()
 	categoryTitleArray = new title[categorySize];
 
 	cout << "Loading..." << endl;
-	load_user_file();
-	load_product_file();
 	load_category_file();
-	
+
+	load_user_file();
+
+	load_product_file();
 }
 
 Application ::~Application()
@@ -332,7 +333,18 @@ void Application::replaceItem()
 	Product dummy;
 
 	cout << "ID\t이름\t가격\t수량\t사진" << endl;
-	productList.PrintTree(cout);
+	LinkedList<int>* itemList = loginedSeller->getItemList();
+	itemList->ResetList();
+	for (int i = 0; i < itemList->GetLength(); i++)
+	{
+		int pid;
+		Product temp;
+		bool found;
+		itemList->GetNextItem(pid);
+		temp.setProduct(pid, 0, 0, 0, 0, 0, 0, "", "");
+		productList.RetrieveItem(temp, found);
+		temp.printProductList();
+	}
 
 	cout << "수정할 상품ID를 입력해 주십시오. : ";
 	cin >> id;
@@ -369,6 +381,7 @@ void Application::replaceItem()
 void Application::replaceSeller()
 {
 	string name;
+	string address;
 	string phone;
 	string regitNum;
 	bool found;
@@ -377,12 +390,15 @@ void Application::replaceSeller()
 
 	cout << "상호명 : ";
 	cin >> name;
+	cout << "상호주소 : ";
+	cin >> address;
 	cout << "전화번호 : ";
 	cin >> phone;
 	cout << "상호번호 : ";
 	cin >> regitNum;
 
-	temp.setSeller(loginedSeller->getId(), loginedSeller->getPW(), name, phone, regitNum);
+
+	temp.setSeller(loginedSeller->getId(), loginedSeller->getPW(), name, phone, regitNum, address);
 	sellerList.ReplaceItem(temp, found);
 }
 //아이템 삭제
@@ -498,6 +514,12 @@ void Application::searchByCategory()
 		dep++;
 		cout << endl;
 		cin >> command;
+
+		char YN;
+		cout << "선택 카테고리를 조회하시겠습니까? ";
+		cin >> YN;
+		if (YN == 'Y')
+			break;
 	}
 	//categoryArray[command - 1].setList(productList);
 	tempList = categoryArray[command - 1].getList();
@@ -577,7 +599,7 @@ bool Application::login(int uid, string Password)
 	string dummy = "";
 	bool found;
 
-	temp.setUser(uid, Password, dummy);
+	temp.setUser(uid, Password, dummy, dummy);
 	userList.RetrieveItem(temp,found);
 
 	if (!found)
@@ -606,7 +628,7 @@ bool Application::loginAdmin(int uid, string Password)
 	string dummy = "";
 	bool found;
 
-	temp.setSeller(uid, Password, dummy, "", "");
+	temp.setSeller(uid, Password, dummy, "", "", "");
 	sellerList.RetrieveItem(temp,found);
 
 	if (!found)
@@ -687,6 +709,7 @@ void Application::load_user_file()
 	string name="";
 	string regitNum ="";
 	string phone = "";
+	string address = "";
 	User temp;
 	Seller temp2;
 
@@ -695,15 +718,15 @@ void Application::load_user_file()
 		ifs >> isAdmin;
 		if (isAdmin == 0)
 		{
-			ifs >> id >> password >> name;
-			temp.setUser(id, password, name);
+			ifs >> id >> password >> name >> address;
+			temp.setUser(id, password, name, address);
 			userList.InsertItem(temp);
 			index++;
 		}
 		else
 		{
-			ifs >> id >> password >> name >> phone >> regitNum;
-			temp2.setSeller(id, password, name, phone, regitNum);
+			ifs >> id >> password >> name >> phone >> regitNum >> address;
+			temp2.setSeller(id, password, name, phone, regitNum, address);
 			sellerList.InsertItem(temp2);
 			index++;
 		}
@@ -741,6 +764,9 @@ void Application::load_product_file()
 		ifs >> id >> name >> price >> amount >> sellerId >> cat_1 >> cat_2 >> cat_3 >> picPath;
 		temp.setProduct(id, price, amount, sellerId, cat_1, cat_2, cat_3, name, picPath);
 		productList.InsertItem(temp);
+		categoryArray[cat_1 - 1].addItemToList(id);
+		categoryArray[cat_2 - 1].addItemToList(id);
+		categoryArray[cat_3 - 1].addItemToList(id);
 		index++;
 	}
 

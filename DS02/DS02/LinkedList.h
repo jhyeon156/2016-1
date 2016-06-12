@@ -23,7 +23,12 @@ public:
 	/**
 	*	default constructor.
 	*/
-	LinkedList();     
+	LinkedList();   
+
+	/**
+	*	default constructor.
+	*/
+	LinkedList(LinkedList<T>& list);
 
 	/**
 	*	destructor.
@@ -107,6 +112,14 @@ LinkedList<T>::LinkedList()
 	m_pCurPointer = NULL;
 }
 
+// Class constructor
+template <typename T>
+LinkedList<T>::LinkedList(LinkedList<T>& list)
+{
+	m_nLength = list.m_nLength;
+	m_pList = list.m_pList;
+	m_pCurPointer = list.m_pCurPointer;
+}
 
 // Class destructor
 template <typename T>

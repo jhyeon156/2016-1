@@ -13,6 +13,10 @@ Seller::Seller(Seller& user)
 	id = user.getId();
 	name = user.getName();
 	password = user.getPW();
+	phone = user.getPhone();
+	regitNum = user.getRegitNum();
+	address = user.getAddress();
+	itemList = *user.getItemList();
 }
 
 Seller::~Seller() {}
@@ -42,6 +46,11 @@ string Seller::getRegitNum()
 	return regitNum;
 }
 
+string Seller::getAddress()
+{
+	return address;
+}
+
 LinkedList<int>* Seller::getItemList()
 {
 	return &itemList;
@@ -66,9 +75,9 @@ int Seller::replaceItemToList(int pid)
 }
 
 //판매자 정보 입력
-void Seller::setSeller(int _id, string _password, string _name, string _phone, string _regitNum)
+void Seller::setSeller(int _id, string _password, string _name, string _phone, string _regitNum, string _address)
 {
-	id = _id; password = _password; name = _name; phone = _phone; regitNum = _regitNum;
+	id = _id; password = _password; name = _name; phone = _phone; regitNum = _regitNum; address = _address;
 }
 
 //사용자 정보 출력
@@ -76,6 +85,9 @@ void Seller::printSellerInfo()
 {
 	cout << "판매자ID\t: " << id << endl;
 	cout << "판매자이름\t: " << name << endl;
+	cout << "판매자주소\t: " << address << endl;
+	cout << "판매자전화번호\t: " << phone << endl;
+	cout << "판매자등록번호\t: " << regitNum << endl;
 }
 
 // Compare two itemtypes by ID.

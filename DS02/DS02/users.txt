@@ -1,7 +1,7 @@
-0	1	pw	ABC
-0	2	pw	BCD
-0	3	pw	CDE
-1	4	ps	DET	1111	2222
-1	5	ps	EJR	3123	5616
-1	6	ps	FBS	1561	8166
-1	7	ps	GKR	5616	8189
+0	1	pw	ABC	서울
+0	2	pw	BCD	부산
+0	3	pw	CDE	대구
+1	4	ps	DET	서울	1111	2222
+1	5	ps	EJR	부산	3123	5616
+1	6	ps	FBS	전주	1561	8166
+1	7	ps	GKR	제주	5616	8189

@@ -13,6 +13,7 @@ private:
 	int id;
 	string password;
 	string name;
+	string address;
 	LinkedList<int> cartList;
 	LinkedList<int> shoppingList;
 	
@@ -24,12 +25,13 @@ public:
 	int getId(); // 아이디 리턴
 	string getPW();  // 비밀번호 리턴
 	string getName(); // 이름 리턴
+	string getAddress();
 	LinkedList<int>* getCartList(); //캐시 포인터 리턴
 	LinkedList<int>* getShoppingList(); //캐시 포인터 리턴
 
 	int addItemToCart(int pid);
 	int addItemToShoppingList(int pid);
-	void setUser(int _id, string _password, string _name);
+	void setUser(int _id, string _password, string _name, string _address);
 	void printUserInfo();
 
 	/**
